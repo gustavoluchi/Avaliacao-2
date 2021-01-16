@@ -1,4 +1,4 @@
-.container {
+/* .container {
   min-height: 100vh;
   padding: 0 0.5rem;
   display: flex;
@@ -49,8 +49,8 @@
 .title {
   margin: 0;
   color: #005b95;
-  /* line-height: 1.15;
-  font-size: 4rem; */
+  * line-height: 1.15;
+  font-size: 4rem; *
 }
 
 .title,
@@ -120,4 +120,4 @@
     width: 100%;
     flex-direction: column;
   }
-}
+} */

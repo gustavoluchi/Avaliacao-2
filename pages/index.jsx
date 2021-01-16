@@ -39,7 +39,6 @@
 //   )
 // }
 
-
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -52,9 +51,9 @@ export default function Index() {
   return (
     <Container maxWidth="sm">
       <Box my={4}>
-        <h1>
+      <Typography variant="h1">
           Next.js example
-        </h1>
+        </Typography>
         <Link href="/about" color="secondary">
           Go to the about page
         </Link>

@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ProTip() {
   const classes = useStyles();
   return (
-    <Typography className={classes.root} color="textSecondary">
+    <Typography variant='h3'>
       <LightBulbIcon className={classes.lightBulb} />
       Pro tip: See more{' '}
       <Link href="https://material-ui.com/getting-started/templates/">templates</Link> on the
