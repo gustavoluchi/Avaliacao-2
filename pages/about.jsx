@@ -14,7 +14,7 @@ export default function About() {
         <Typography variant="h4" component="h1" gutterBottom>
           Next.js example
         </Typography>
-        <Button variant="contained" color="secondary" component={Link} naked href="/">
+        <Button variant="outlined" css={{'box-shadow': '0px 4px 4px rgba(0, 0, 0, 0.25)'}} color="secondary" component={Link} naked href="/">
           Go to the main page
         </Button>
         <ProTip />

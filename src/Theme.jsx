@@ -9,8 +9,12 @@ import { createMuiTheme, withTheme } from '@material-ui/core/styles';
 const theme = createMuiTheme({
     overrides: {
         MuiButton: {
+            // outlined: {
+            //     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+            // },
             contained: {
                 fontWeight: 'bold',
+                borderRadius: 0,
             },
             // text: {
             containedSecondary: {
@@ -23,7 +27,28 @@ const theme = createMuiTheme({
                     border: `1px solid #005b95`,
                 }
             }
-            // }
+        },
+        // MuiButtonBase: {
+        //     root: {
+        //         height: 49,
+        //         margin: '40px 40px 40px 20px',
+        //         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        //         borderRadius: 0,
+        //     }
+        // },
+        MuiInputBase: {
+            input: {
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                // whiteSpace: 'noWrap',
+            }
+        },
+        MuiOutlinedInput: {
+            root: {
+                height: 49,
+                borderRadius: 0,
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+            },
         },
     },
     typography: {
@@ -32,7 +57,8 @@ const theme = createMuiTheme({
             'sans-serif',
         ],
         h1: {
-            fontSize: '24px'
+            fontSize: '24px',
+            color: '#005b95'
         },
         h2: {
             fontSize: '20px'
@@ -41,13 +67,11 @@ const theme = createMuiTheme({
             fontSize: '14px',
             fontWeight: 'bold'
         },
+        body2: {
+            fontSize: '16px',
+            fontWeight: 'bold'
+        },
     },
-    /*  
-            label: {
-               fontSize: '14px',
-               fontWeight: 'bold'
-           }, 
-    */
     palette: {
         primary: {
             main: '#005b95',

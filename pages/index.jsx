@@ -1,65 +1,111 @@
-// import Head from 'next/head'
-// import styles from '../styles/Home.module.css'
-// import PageCriaProcesso from './PageCriaProcesso'
+import { Box, Grid, Typography, Link, Button, makeStyles } from '@material-ui/core';
+import axios from 'axios';
+import { AnimateSharedLayout, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import Pesquisa from '../components/PesquisaProc';
+import UmProc from '../components/UmProc';
 
-// export default function Home() {
-//   return (
-//     <div className={styles.container}>
-//       <Head>
-//         <title>Pesquisa de Processos</title>
-//         <link rel="icon" href="/favicon.ico" />
-//       </Head>
+const useStyles = makeStyles({
+  boxProcessos: {
+    marginLeft: 198,
+  },
+  telaVazia: {
+    display: 'flex',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+    height: '100vh',
+  },
+  telaCheia: {
+    flexDirection: "row",
+    justify: "left",
+    alignItems: "left",
+  }
 
-//       <main className={styles.main}>
-//         <h1 className={styles.title}>
-//           Busca de processos
-//         </h1>
-        
-//         <p className={styles.description}>
-//           Get started by editing{' '}
-//           <code className={styles.code}>pages/index.js</code>
-//         </p>
-
-//         <div className={styles.grid}>
-//           <PageCriaProcesso />
-//         </div>
-//       </main>
-
-//       <footer className={styles.footer}>
-//         <a
-//           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Powered by{' '}
-//           <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-//         </a>
-//       </footer>
-//     </div>
-//   )
-// }
-
-import React from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import ProTip from '../src/ProTip';
-import Link from '../src/Link';
-import Copyright from '../src/Copyright';
+})
 
 export default function Index() {
+  const [search, setSearch] = useState('');
+  const [listaDeProc, setListaDeProc] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3002/processo').then(response => {
+      console.log(response);
+      setListaDeProc(response.data)
+    })
+  }, [])
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const classes = useStyles();
+  const teste = (val) => {
+    if (search == "") {
+      return val
+    } else if (
+      val.id.includes(search) ||
+      val.numero.includes(search) ||
+      val.entrada.includes(search) ||
+      val.descricao.includes(search) ||
+      val.assunto.includes(search) ||
+      val.interessados.includes(search)) {
+      return val
+    }
+  }
+
   return (
-    <Container maxWidth="sm">
-      <Box my={4}>
-      <Typography variant="h1">
-          Next.js example
-        </Typography>
-        <Link href="/about" color="secondary">
-          Go to the about page
+    <>
+      <Grid
+        container
+        component={motion.div}
+        transition={{ duration: 1 }}
+        className={!search ? classes.telaVazia : classes.telaCheia}>
+        <Box
+          style={!search ? {} : {
+            margin: 40,
+            width: 118,
+            height: 49
+          }}>
+          <Typography
+            variant={!search ? 'h1' : 'h2'}
+          >Busca de processos</Typography>
+        </Box>
+        <Box marginTop={5}
+          marginBottom={9}
+          width={!search ? '75%' : '40%'}
+        >
+          <Pesquisa search={search} setSearch={setSearch} />
+        </Box>
+        {!!search && <Button
+          style={{
+            height: 49,
+            margin: '40px 0 0 20px'
+          }}
+          variant="contained"
+          color="secondary"
+        > NOVO </Button>}
+        {!search && <Typography>
+          Você pode criar um novo processo&nbsp;
+        <Link
+            variant='body2'
+            href="/PageCriaProcesso">
+            clicando aqui.
         </Link>
-        <ProTip />
-        <Copyright />
-      </Box>
-    </Container>
+        </Typography>}
+        {
+          search.length > 2 &&
+          <Box className={classes.boxProcessos} >
+            {listaDeProc.filter(val => teste(val)).map((val, key) => <UmProc
+              val={val} 
+              key={key}
+              />)}
+          </Box>
+        }
+      </Grid>
+    </>
   );
 }
+/* .filter(val => teste(val)) */
