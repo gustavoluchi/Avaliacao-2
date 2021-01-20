@@ -1,10 +1,17 @@
+import { Button } from "@material-ui/core";
+import axios from "axios";
+
 export default function PageCriaProcesso() {
+
+    function post() {
+        axios.post('http://localhost:3002/processo', {"descricao" : "Solicitação de licença-prêmio", "assunto" : "Licença", "interessados" : ["Edmilson Cherem", "teste teste", "teste dois"]}).then(response => console.log(response))
+    }
+
+
     return (
         <div>
-            oi
-            {/*
-            pra criar um novo id que não tenha sido usado ainda:
-            val[val.length - 1].id + 1 */}
+            <Button onClick={post}> faz um post</Button>
+
         </div>
     )
 }

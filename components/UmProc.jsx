@@ -2,22 +2,6 @@ import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Coll
 import { useState } from "react";
 import theme from "../src/theme";
 
-
-
-/* 
-[
-    {
-        "id": ********-****-****-****-****-**********
-        "04c7197f-c0fe-4dab-b27c-d69611eca40f",
-        "numero": "SOFT 2018/00008",
-        "entrada": "07/08/2018",
-        "descricao": "Solicitação de licença-prêmio",
-        "assunto" : "Licença",
-    	"interessados": ["Edmilson Cherem"]
-    }
-]
-*/
-
 export default function UmProc(props) {
     const useStyles = makeStyles({
         root: {
@@ -58,9 +42,9 @@ export default function UmProc(props) {
         // <>
         // {props.val !== undefined &&
         <Card
+            key={id}
             className={classes.deFora}
         >
-            {/* {console.log()} */}
             <CardActionArea
                 onClick={() => {
                     setIsOpen(!isOpen);
@@ -90,20 +74,19 @@ export default function UmProc(props) {
                         <Grid item><Typography>
                             Interessados
                         </Typography>
-                            <Typography>
-                                {interessados}
-                        </Typography></Grid>
+
+                            {interessados.map((val, index) =>
+                                <Typography key={index}> {val} </Typography>)}
+                        </Grid>
                         <Grid item><Typography>
                             Descrição
                         </Typography>
                             <Typography>
                                 {descricao}
-                        </Typography></Grid>
+                            </Typography></Grid>
                     </Grid>
                 </CardContent>
             </CardActionArea>
         </Card >
-        // }
-        // </>
     )
 }
