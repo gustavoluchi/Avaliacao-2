@@ -4,8 +4,12 @@ import theme from "../src/theme";
 
 export default function UmProc(props) {
     const useStyles = makeStyles({
-        root: {
-            maxWidth: 345,
+        CardContent: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignContent: 'space-around',
+            alignItems: "center",
+            flexDirection: "row",
         },
         media: {
             height: 140,
@@ -32,8 +36,24 @@ export default function UmProc(props) {
         },
         deFora: {
             margin: '10px 0 10px 0',
-            width: props.width
+            width: props.width,
+            // height: 108
         },
+        sem: {
+            height: '100%'
+        },
+        interessados: {
+            height: 48,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+        },
+        descricao: {
+            width: 240,
+            // height: 48,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+        }
+
     });
     const { id, interessados, descricao, entrada, numero, assunto } = props.val;
     const classes = useStyles();
@@ -46,19 +66,19 @@ export default function UmProc(props) {
             className={classes.deFora}
         >
             <CardActionArea
+                className={classes.sem}
                 onClick={() => {
                     setIsOpen(!isOpen);
                 }}
             >
                 <CardContent>
                     <Grid
+                        className={classes.CardContent}
                         container
                         spacing={2}
-                        alignItems="center"
-                        direction="row"
                     >
                         <Grid item className={classes.square} />
-                        <Grid item xs><Typography>
+                        <Grid item ><Typography>
                             Número
                         </Typography>
                             <Typography>
@@ -71,17 +91,24 @@ export default function UmProc(props) {
                             <Typography>
                                 {assunto}
                             </Typography></Grid>
-                        <Grid item><Typography>
-                            Interessados
+                        <Grid item >
+                            <Typography>
+                                Interessados
                         </Typography>
-
-                            {interessados.map((val, index) =>
-                                <Typography key={index}> {val} </Typography>)}
+                            <Typography
+                                noWrap
+                                className={classes.descricao}> {interessados[0]}
+                                <br />
+                                {interessados[1] && `e mais ${interessados.length}`
+                                }</Typography>
                         </Grid>
                         <Grid item><Typography>
                             Descrição
                         </Typography>
-                            <Typography>
+                            <Typography
+                                noWrap
+                                className={classes.descricao}
+                            >
                                 {descricao}
                             </Typography></Grid>
                     </Grid>

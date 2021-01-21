@@ -15,19 +15,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
-function generate(element) {
-    return [0, 1, 2].map((value) =>
-        cloneElement(element, {
-            key: value,
-        }),
-    );
-}
 // aqui falta a função deletar item
+function buscaProc(id) {
+    http://localhost:3002/processo/04c7197f-c0fe-4dab-b27c-d69611eca40f
+    axios.get(`http://localhost:3002/processo/${id}`)
+        .then(response => setEmEdicao(response));
+}
+
 
 export default function Lista(props) {
+    const [emEdicao, setEmEdicao] = useState({});
     const classes = useStyles();
-    const { setListaDeProc, listaDeProc } = props;
+    const { setInteressados, interessados, qualProc } = props;
 
     return (
         <div>
@@ -37,8 +36,10 @@ export default function Lista(props) {
           </Typography>
                 <div className={classes.demo}>
                     <List dense>
-                        {console.log(listaDeProc[6])}
-                        {listaDeProc[6] && listaDeProc[6].interessados.map((nome, index) => {
+                        {/* console.log(listaDeProc[6])
+                        listaDeProc[qualProc]
+                        */}
+                        {interessados.map((nome, index) => {
                             return (
                                 <ListItem
                                     key={index}>
@@ -47,7 +48,8 @@ export default function Lista(props) {
                                     />
                                     <ListItemSecondaryAction>
                                         <IconButton edge="end" aria-label="deletar interessado"
-                                        // onClick={(index) => delete(index)}
+                                            onClick={() =>
+                                                setInteressados(interessados.filter((a, iIndex) => iIndex !== index))}
                                         >
                                             <DeleteIcon />
                                         </IconButton>

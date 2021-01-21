@@ -4,15 +4,24 @@ import { AnimateSharedLayout, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Pesquisa from '../components/PesquisaProc';
 import UmProc from '../components/UmProc';
-import ModalCadastro from '../components/ModalCadastro';
+import ModalCadastro from '../components/Cadastro';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Skeleton } from '@material-ui/lab';
 import ClicandoAqui from '../components/ClicandoAqui'
 import BotaoNovoProc from '../components/BotaoNovoProc';
+import Notificacao from '../components/Notificacao';
 // import BotaoNovo from '../components/BotaoNovo'
 
 const useStyles = makeStyles({
+  entorno: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: "column",
+    // justifyContent: "center",
+    alignItems: "left",
+    // alignContent: "center",
+  },
   boxProcessos: {
     margin: 10,
   },
@@ -43,14 +52,7 @@ const useStyles = makeStyles({
   loading: {
     margin: 'auto'
   },
-  entorno: {
-    height: '100vh',
-    display: 'flex',
-    flexDirection: "column",
-    // justifyContent: "center",
-    alignItems: "left",
-    // alignContent: "center",
-  }
+
 })
 
 export default function Index() {
@@ -60,6 +62,7 @@ export default function Index() {
   const [isOpen, setIsOpen] = useState(false);
   const [openCadastro, setOpenCadastro] = useState(false);
   const [openProcesso, setIsOpenProcesso] = useState(false);
+  const [notificacao, setNotificacao] = useState(false);
 
   const classes = useStyles();
   const router = useRouter();
@@ -76,14 +79,12 @@ export default function Index() {
             setListaDeProc(response.data);
             setLoading(false);
           })
-          .finally(() => {
-
-          })
+          /* .finally(() => {
+            
+          })*/
       }, 1000);
     }
   }
-
-  
 
   return (
     <Container className={classes.entorno} >
@@ -119,7 +120,15 @@ export default function Index() {
       {search.length > 2 && loading === true &&
         <CircularProgress className={classes.loading} />
       }
-      <ModalCadastro open={openCadastro} setOpen={setOpenCadastro} listaDeProc={listaDeProc} setListaDeProc={setListaDeProc} />
+      <ModalCadastro open={openCadastro} setOpen={setOpenCadastro} listaDeProc={listaDeProc} setListaDeProc={setListaDeProc}
+      notificacao={notificacao}
+      setNotificacao={setNotificacao} />
+      <Notificacao
+                        open={notificacao}
+                        setOpen={setNotificacao}
+                        funcionou={"success"}
+                        texto={"Seu processo foi salvo com sucesso!"}
+                    />
     </ Container>
   );
 }
