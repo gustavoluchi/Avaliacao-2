@@ -1,44 +1,57 @@
-import { Box, Grid, Typography, Button, makeStyles, CircularProgress, Container } from '@material-ui/core';
+import { Box, Grid, Typography, makeStyles, CircularProgress, Container } from '@material-ui/core';
 import axios from 'axios';
-import { AnimateSharedLayout, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Pesquisa from '../components/PesquisaProc';
 import UmProc from '../components/UmProc';
 import ModalCadastro from '../components/Cadastro';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Skeleton } from '@material-ui/lab';
 import ClicandoAqui from '../components/ClicandoAqui'
-import BotaoNovoProc from '../components/BotaoNovoProc';
+import BotaoNovoProc from '../components/Botao';
 import Notificacao from '../components/Notificacao';
+import ProcExpandido from '../components/ProcExpandido';
 // import BotaoNovo from '../components/BotaoNovo'
-
 const useStyles = makeStyles({
   entorno: {
-    height: '100vh',
+    minHeight: '100vh',
+    minWidth: '100vw',
     display: 'flex',
+    margin: 0,
+    padding: '1.5rem',
     flexDirection: "column",
     // justifyContent: "center",
-    alignItems: "left",
+    // alignItems: "center",
     // alignContent: "center",
+  },
+  busca: {
+    // margin: 'max(0, 40px)',
+    height: 49,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   boxProcessos: {
     margin: 10,
+    display: 'flex',
+    flexGrow: 1
   },
   telaVazia: {
     display: 'flex',
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
-    alignContent: "center",
-    margin: 'auto'
-
+//     alignContent: "center",
+    margin: 'auto',
+    minHeight: '30vh'
   },
   telaCheia: {
+    width: '100%',
     display: 'flex',
+    flexWrap: 'wrap',
     flexDirection: "row",
-    justify: "left",
-    alignItems: "left",
+    justifyContent: "space-around",
+    alignContent: 'space-around',
+    alignItems: "flex-start",
+    marginTop: 20,
+    // minHeight: '30vh',
   },
   skeleton: {
     width: 642,
@@ -52,23 +65,32 @@ const useStyles = makeStyles({
   loading: {
     margin: 'auto'
   },
+  ClicandoAqui: {
+    flexGrow: 2,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  Novo: {
+    flexGrow: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 
 })
 
 export default function Index() {
-  const [search, setSearch] = useState('');
-  const [listaDeProc, setListaDeProc] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [openCadastro, setOpenCadastro] = useState(false);
-  const [openProcesso, setIsOpenProcesso] = useState(false);
-  const [notificacao, setNotificacao] = useState(false);
+  const [search, setSearch] = useState('')
+  const [listaDeProc, setListaDeProc] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [openCadastro, setOpenCadastro] = useState(false)
+  const [expandir, setExpandir] = useState(false)
+  const [notificacao, setNotificacao] = useState({})
+  const [detalhes, setDetalhes] = useState({})
+  const [idCadastro, setIdCadastro] = useState({})
 
-  const classes = useStyles();
-  const router = useRouter();
-  const toggleOpen = () => {
-    setIsOpen(!isOpen);
-  };
+  const classes = useStyles()
 
   function submitSearch(valor) {
     if (valor.length > 2) {
@@ -79,9 +101,9 @@ export default function Index() {
             setListaDeProc(response.data);
             setLoading(false);
           })
-          /* .finally(() => {
-            
-          })*/
+        /* .finally(() => {
+          
+        })*/
       }, 1000);
     }
   }
@@ -91,62 +113,65 @@ export default function Index() {
       <Grid
         container
         className={!search ? classes.telaVazia : classes.telaCheia}>
+
         <Box
-          style={!search ? {} : {
-            margin: 40,
-            width: 118,
-            height: 49
-          }}>
+          flexGrow='1'
+          className={!search ? '' : classes.busca}
+        >
           <Typography
             variant={!search ? 'h1' : 'h2'}
           >Busca de processos</Typography>
         </Box>
-        <Box marginTop={5}
-          marginBottom={9}
-          width={!search ? '75%' : '40%'}
+        <Box
+          flexGrow='1'
+          width={!search ? '75%' : '50%'}
         >
           <Pesquisa search={search} setSearch={setSearch} submitSearch={submitSearch} />
         </Box>
-        {!!search && <BotaoNovoProc open={openCadastro} setOpen={setOpenCadastro} />}
-        {!search && <ClicandoAqui open={openCadastro} setOpen={setOpenCadastro} />}
+        {!!search && <Box className={classes.Novo}>
+          <BotaoNovoProc texto='novo'
+            acao={() => {
+              setOpenCadastro(true)
+              setIdCadastro({})
+            }} />
+        </Box>}
+        {!search && <Box className={classes.ClicandoAqui}>
+          <ClicandoAqui setIdCadastro={setIdCadastro}
+            open={openCadastro} setOpen={setOpenCadastro} />
+        </Box>
+        }
       </Grid>
       {search.length > 2 &&
         loading === false &&
         <Box className={classes.boxProcessos} >
-          {listaDeProc.map(val => <UmProc
-            val={val}
-          />)}
+          <div style={{ width: '100%' }}>
+            {listaDeProc.map(umProc => <UmProc
+              key={umProc.id}
+              value={umProc}
+              setExpandir={setExpandir} expandir={expandir}
+              setDetalhes={setDetalhes} detalhes={detalhes}
+            />)}
+          </div>
+          {expandir && <ProcExpandido
+            // openCadastro={openCadastro} notificao={notificacao}
+            setExpandir={setExpandir} expandir={expandir}
+            setDetalhes={setDetalhes} detalhes={detalhes}
+            setNotificacao={setNotificacao}
+            setOpenCadastro={setOpenCadastro}
+            setIdCadastro={setIdCadastro}
+          />}
         </Box>}
       {search.length > 2 && loading === true &&
         <CircularProgress className={classes.loading} />
       }
-      <ModalCadastro open={openCadastro} setOpen={setOpenCadastro} listaDeProc={listaDeProc} setListaDeProc={setListaDeProc}
-      notificacao={notificacao}
-      setNotificacao={setNotificacao} />
+      <ModalCadastro open={openCadastro} setOpen={setOpenCadastro}
+        setIdCadastro={setIdCadastro} idCadastro={idCadastro}
+        // acao={notificacao} listaDeProc={listaDeProc} setListaDeProc={setListaDeProc}
+        setAcao={setNotificacao} />
       <Notificacao
-                        open={notificacao}
-                        setOpen={setNotificacao}
-                        funcionou={"success"}
-                        texto={"Seu processo foi salvo com sucesso!"}
-                    />
+        acao={notificacao}
+        setAcao={setNotificacao}
+      />
     </ Container>
   );
 }
-/* 
-lixo:
-<Box component={Link} href='/about'>oii</Box>
-  const teste = (val) => {
-    if (search == "") {
-      return val
-    } else if (
-      val.id.includes(search) ||
-      val.numero.includes(search) ||
-      val.entrada.includes(search) ||
-      val.descricao.includes(search) ||
-      val.assunto.includes(search) ||
-      val.interessados.includes(search)) {
-      return val
-    }
-  }
-
-*/

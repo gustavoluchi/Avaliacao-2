@@ -9,21 +9,23 @@ function Alert(props) {
 }
 
 export default function CustomizedSnackbars(props) {
-    const { open, setOpen, texto, funcionou } = props;
+  const { acao, setAcao } = props;
   const handleClose = (event, reason) => {
     // if (reason === 'clickaway') {
     //   return;
     // }
-
-    setOpen(false);
+    setAcao({
+      open: false,
+      caso: '',
+      texto: ''
+    });
   };
-
+  // acao.caso possível: ["error","info","success","warning"]
   return (
     <>
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={funcionou}>
-            {console.log(funcionou)}
-          {texto}
+      <Snackbar open={acao.open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={acao.caso}>
+          {acao.texto}
         </Alert>
       </Snackbar>
     </>

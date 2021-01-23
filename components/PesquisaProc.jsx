@@ -1,7 +1,17 @@
 import SearchIcon from '@material-ui/icons/Search';
-import { InputAdornment, TextField, Link, IconButton } from '@material-ui/core';
+import { InputAdornment, TextField, Link, IconButton, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  pesquisa: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'noWrap',
+    height: 71,
+  }
+})
 
 export default function Pesquisa(props) {
+  const classes = useStyles();
   const { search, setSearch, submitSearch } = props;
   return (
     <TextField
@@ -12,6 +22,7 @@ export default function Pesquisa(props) {
         }
       }}
       fullWidth
+      className={classes.pesquisa}
       id="standard-error-helper-text"
       helperText={(search !== "" && search.length < 3) ? "Ao menos 3 caracteres para pesquisa. Para números use 001." : false}
       error={(search !== "" && search.length < 3) ? true : false}
@@ -22,12 +33,12 @@ export default function Pesquisa(props) {
         endAdornment: (
           <InputAdornment position="end" >
             <IconButton
-            aria-label='pesquisar'
-            onClick={() => submitSearch(search)}
-            disabled={search.length < 3? true : false}
-            color='primary'
+              aria-label='pesquisar'
+              onClick={() => submitSearch(search)}
+              disabled={search.length < 3 ? true : false}
+              color='primary'
             >
-            <SearchIcon />
+              <SearchIcon />
             </IconButton>
           </InputAdornment>
         ),
