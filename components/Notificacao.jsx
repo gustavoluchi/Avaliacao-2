@@ -16,7 +16,6 @@ export default function CustomizedSnackbars(props) {
     // }
     setAcao({
       open: false,
-      caso: '',
       texto: ''
     });
   };

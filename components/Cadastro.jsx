@@ -11,47 +11,58 @@ import Lista from './ListadeInteressados';
 import Notificacao from './Notificacao';
 import axios from 'axios'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   grid: {
     display: 'flex',
     flexDirection: 'column'
   },
   field: {
-    width: '40%'
+    width: '40%',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
   boxAdicionar: {
     display: 'flex',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      width: '100%',
+    },
+
   },
   adicionar: {
     margin: '5px 5px 5px 15px',
   }
-})
+}))
 
 export default function Cadastro(props) {
   const { open, setOpen, setAcao, setIdCadastro, idCadastro } = props;
   const { id, interessados, descricao, entrada, numero, assunto } = idCadastro;
-  const [assuntoCadastro, setAssuntoCadastro] = useState('');
   const [interessadosCadastro, setInteressadosCadastro] = useState([]);
+  const [assuntoCadastro, setAssuntoCadastro] = useState('');
   const [interessadoCadastro, setInteressadoCadastro] = useState('');
   const [descricaoCadastro, setDescricaoCadastro] = useState('');
-  const [fieldTouched, setFieldTouched] = useState('')
+  const [assuntoErro, setAssuntoErro] = useState(false);
+  const [interessadoErro, setInteressadoErro] = useState(false);
+  const [descricaoErro, setDescricaoErro] = useState(false);
 
-  useEffect(() => {console.log(typeof assuntoCadastro)},[])
 
+  const classes = useStyles();
   useEffect(() => {
-    setAssuntoCadastro(assunto)
+    setAssuntoCadastro(assunto ?? '')
     setInteressadosCadastro(interessados ?? [])
-    setDescricaoCadastro(descricao)
+    setDescricaoCadastro(descricao ?? '')
   }, [idCadastro])
 
-  function post() {
+  function finalizar() {
     if (JSON.stringify(idCadastro) !== '{}') {
       setAcao({
         open: true,
         caso: 'error',
         texto: 'o sistema ainda não está configurado para receber uma edição'
       })
+      setOpen(false)
       return
     } else {
       axios.post('http://localhost:3002/processo',
@@ -71,6 +82,10 @@ export default function Cadastro(props) {
           setInteressadosCadastro([])
           setInteressadoCadastro('')
           setDescricaoCadastro('')
+          setAssuntoErro(false)
+          setInteressadoErro(false)
+          setDescricaoErro(false)
+          setOpen(false)
         })
         .catch(function (error) {
           setAcao({
@@ -80,37 +95,30 @@ export default function Cadastro(props) {
           })
           console.log(error);
         })
+        // .finally(() => {
+          
+        // })
     }
   }
 
-  const classes = useStyles();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
+      <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-title"
         fullWidth
         maxWidth='md'
       >
-        <DialogTitle id="form-dialog-title">Cadastro de processo</DialogTitle>
+        <DialogTitle id="form-title">Cadastro de processo</DialogTitle>
         <DialogContent>
           <Grid className={classes.grid}>
-
             <TextField
               className={classes.field}
+              required
               autoFocus
               onChange={e => setAssuntoCadastro(e.target.value)}
-              // value={assuntoCadastro}
-              onFocus={() => setFieldTouched('assunto')}
-              error={fieldTouched === 'assunto' && assuntoCadastro === ''}
-              helperText={fieldTouched == 'assunto' && assuntoCadastro === '' && 'campo obrigatório'}
-              aria-required="Preencha o assunto"
+              onBlur={() => setAssuntoErro(true)}
+              helperText={(assuntoCadastro == "" && assuntoErro) ? "Campo obrigatório" : ''}
+              error={(assuntoCadastro == "" && assuntoErro) ? true : false}
+              value={assuntoCadastro}
               margin="dense"
               id="ass"
               label="Assunto"
@@ -122,10 +130,13 @@ export default function Cadastro(props) {
             >
               <TextField
                 className={classes.field}
+                required
                 margin="dense"
                 id="int"
                 label="Novo Interessado"
-                error={!(interessadoCadastro === '')}
+                onBlur={() => setInteressadoErro(true)}
+                helperText={(interessadoCadastro == "" && interessadoErro && interessadosCadastro.length === 0) ? "Campo obrigatório" : ''}
+                error={(interessadoCadastro == "" && interessadoErro && interessadosCadastro.length === 0) ? true : false}
                 onChange={e => setInteressadoCadastro(e.target.value)}
                 value={interessadoCadastro}
                 onKeyPress={event => {
@@ -148,10 +159,14 @@ export default function Cadastro(props) {
             </Box>
             <TextField
               fullWidth
+              required
               margin="dense"
               id="des"
               label="Descrição"
               value={descricaoCadastro}
+              onBlur={() => setDescricaoErro(true)}
+              helperText={(descricaoCadastro == "" && descricaoErro) ? "Campo obrigatório" : ''}
+              error={(descricaoCadastro == "" && descricaoErro) ? true : false}
               multiline
               rows={4}
               onChange={e => setDescricaoCadastro(e.target.value)}
@@ -161,10 +176,8 @@ export default function Cadastro(props) {
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => {
-            post();
-            handleClose();
-          }}
+          <Button onClick={finalizar}
+
             variant='contained'
             color="primary">
             Salvar

@@ -2,7 +2,6 @@ import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Coll
 import { useState } from "react";
 import theme from "../src/theme";
 import CloseIcon from '@material-ui/icons/close';
-import ImgPlaceHolder from "./ImgPlaceHolder";
 
 const useStyles = makeStyles({
   deFora: {
@@ -13,7 +12,7 @@ const useStyles = makeStyles({
   },
   CardContent: {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignContent: 'space-around',
     alignItems: "center",
     flexDirection: "row",
@@ -25,13 +24,10 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
   },
-  svg: {
-    width: 100,
-    height: 100,
-  },
   square: {
     height: 50,
     width: 50,
+    margin: theme.spacing(1),
   },
   sem: {
     height: '100%'
@@ -46,7 +42,12 @@ const useStyles = makeStyles({
     // height: 48,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-  }
+  },
+  flexGrow: {
+    flexGrow: 1,
+    color: theme.palette.secondary.main,
+    fontWeight: '600',
+  },
 
 });
 
@@ -64,8 +65,12 @@ export default function UmProc(props) {
       <CardActionArea
         className={classes.sem}
         onClick={() => {
-          setExpandir(!expandir);
-          setDetalhes(props.value);
+          if (JSON.stringify(detalhes) === '{}' || detalhes !== props.value)  {
+            setDetalhes(props.value)
+          }
+          if (detalhes === props.value || !expandir) {
+            setExpandir(!expandir)
+          }
         }}
       >
         <CardContent>
@@ -74,37 +79,46 @@ export default function UmProc(props) {
             container
             spacing={2}
           >
-            <ImgPlaceHolder className={classes.square} />
-            <Grid item ><Typography>
+            <div className={classes.square}>           
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" height="50" width="50">
+              <g>
+                <rect fill="#c4c4c4" id="canvas_background" height="50" width="50" y="-1" x="-1" />
+              </g>
+              <g>
+                <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_2" y2="50" x2="50" y1="0" x1="0" stroke-width="1.5" stroke="#ffffff" fill="none" />
+                <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="50" x2="0" y1="-0" x1="50" stroke-width="1.5" stroke="#ffffff" fill="none" />
+              </g>
+            </svg>
+            </div>
+            <Grid item className={classes.flexGrow} >
               Número
-                        </Typography>
-              <Typography>
+                        
+              <Typography color='textPrimary'>
                 {numero}
               </Typography>
             </Grid>
-            <Grid item><Typography>
+            <Grid className={classes.flexGrow} item>
               Assunto
-                        </Typography>
-              <Typography>
+
+              <Typography color='textPrimary'>
                 {assunto}
               </Typography></Grid>
-            <Grid item >
-              <Typography>
+            <Grid item className={classes.flexGrow}>
                 Interessados
-                        </Typography>
               <Typography
                 noWrap
-                className={classes.descricao}> {interessados[0]}
+                color='textPrimary'
+                > {interessados[0]}
                 <br />
                 {interessados[1] && `e mais ${interessados.length}`
                 }</Typography>
             </Grid>
-            <Grid item><Typography>
+            <Grid item className={classes.flexGrow}>
               Descrição
-                        </Typography>
               <Typography
                 noWrap
                 className={classes.descricao}
+                color='textPrimary'
               >
                 {descricao}
               </Typography></Grid>

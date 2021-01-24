@@ -28,14 +28,11 @@ const theme = createMuiTheme({
         }
       }
     },
-    // MuiButtonBase: {
-    //     root: {
-    //         height: 49,
-    //         margin: '40px 40px 40px 20px',
-    //         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-    //         borderRadius: 0,
-    //     }
-    // },
+    MuiButtonBase: {
+        root: {
+          fontFamily: 'Montserrat, sans-serif'
+        }
+    },
     // MuiInputBase: {
     //     input: {
     //         textOverflow: 'ellipsis',

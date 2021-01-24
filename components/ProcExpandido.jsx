@@ -2,26 +2,38 @@ import { ButtonBase, Grid, IconButton, makeStyles, Paper, Typography } from "@ma
 import CloseIcon from '@material-ui/icons/close';
 import axios from "axios";
 import BotaoNovoProc from "./Botao";
-import ImgPlaceHolder from "./ImgPlaceHolder";
+import quadrado from './imgPlaceholder';
+import { motion } from "framer-motion"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: '150%',
+    width: '100%',
+    maxWidth: 1000,
+    maxHeight: 1000,
     paddingLeft: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 0,
+    },
     margin: '10px 0',
-    // padding: '10px 0 16px 10px',
   },
   paper: {
     color: theme.palette.secondary.main,
     padding: theme.spacing(2),
     height: '100%',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    display: 'flex',
+    flexDirection: 'column',
   },
   square: {
     height: 120,
     width: 120,
-//     display: 'table',
+    [theme.breakpoints.down('xs')]: {
+      width: 50,
+      height: 50,
+    },
+    display: 'table',
+
   },
   interessados: {
     marginBottom: 20,
@@ -38,12 +50,17 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
 
   },
+  todasLinhas: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+  },
   primeiraLinha: {
     display: 'flex',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
     width: '100%',
-    alignItems: 'center',
+    // flexWrap: 'wrap',
+    // alignItems: 'center',
   },
   segundaLinha: {
     width: '100%',
@@ -51,14 +68,14 @@ const useStyles = makeStyles((theme) => ({
     // color: theme.palette.secondary.main,
   },
   umTerco: {
-    width: '33%',
+    flexGrow: 1,
     padding: theme.spacing(1),
     // color: theme.palette.secondary.main,
   },
   close: {
     display: 'flex',
     justifyContent: 'flex-end',
-    width: '33%',
+    // width: '30%',
     height: 48,
   },
   botoes: {
@@ -68,7 +85,8 @@ const useStyles = makeStyles((theme) => ({
   },
   segundaMetade: {
     padding: theme.spacing(1),
-    height: 'inherit',
+    // height: 'inherit',
+    flexGrow: 1,
   },
   /* 
     CardContent: {
@@ -82,7 +100,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ProcExpandido(props) {
-  const { expandir, setExpandir, setDetalhes, detalhes, setNotificacao, setOpenCadastro, setIdCadastro } = props;
+  const { expandir, setExpandir, setDetalhes, detalhes,
+     setNotificacao, setOpenCadastro, setIdCadastro, listaDeProc, setListaDeProc } = props;
   const { id, interessados, descricao, entrada, numero, assunto } = detalhes;
   const classes = useStyles();
   // const [isOpen, setIsOpen] = useState(true);
@@ -96,6 +115,7 @@ export default function ProcExpandido(props) {
           caso: 'success',
           texto: 'seu processo foi removido com sucesso!'
         })
+        setListaDeProc(listaDeProc.filter(proc => proc.id !== id))
       }).catch(() => {
         setNotificacao({
           open: true,
@@ -107,10 +127,22 @@ export default function ProcExpandido(props) {
   }
 
   return (
-    <div className={classes.root}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className={classes.root}>
       <Paper className={classes.paper}>
         <div className={classes.x}>
-          <ImgPlaceHolder className={classes.square} />
+          <div className={classes.square}>
+            {/* {<div dangerouslySetInnerHTML={(function(){ return {__html: quadrado} })()} /> }  */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+              <g>
+                <rect fill="#c4c4c4" id="canvas_background" height="50" width="50" y="-1" x="-1" />
+              </g>
+              <g>
+                <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_2" y2="50" x2="50" y1="0" x1="0" stroke-width="1.5" stroke="#ffffff" fill="none" />
+                <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="50" x2="0" y1="-0" x1="50" stroke-width="1.5" stroke="#ffffff" fill="none" />
+              </g>
+            </svg>
+          </div>
+          <div className={classes.todasLinhas}>
           <div className={classes.primeiraLinha}>
             <div className={classes.umTerco}>
               Processo
@@ -132,40 +164,40 @@ export default function ProcExpandido(props) {
                 <CloseIcon />
               </IconButton>
             </div>
-            <div className={classes.segundaLinha}>
-              Assunto
+          </div>
+          <div className={classes.segundaLinha}>
+            Assunto
               <Typography color='textPrimary'>
-                {assunto}
-              </Typography>
-            </div>
-          </div>
-
-        </div>
-
-        <div className={classes.segundaMetade}>
-          <div className={classes.interessados}>
-            Interessados
-            {interessados.map(interessado => {
-            return <Typography color='textPrimary' key={interessado}>{interessado}</Typography>
-          })}
-          </div>
-          <div className={classes.descricao}>
-            Descrição
-            <Typography color='textPrimary'>
-              {descricao}
+              {assunto}
             </Typography>
           </div>
         </div>
-        <div className={classes.botoes}>
-          <BotaoNovoProc texto='remover' acao={() => handleExcluir(id)} />
-          <BotaoNovoProc texto='editar' acao={() => {
-            setOpenCadastro(true)
-            const proc = detalhes;
-            setIdCadastro(proc)
-          }} />
         </div>
+
+      <div className={classes.segundaMetade}>
+        <div className={classes.interessados}>
+          Interessados
+            {interessados.map(interessado => {
+          return <Typography color='textPrimary' key={interessado}>{interessado}</Typography>
+        })}
+        </div>
+        <div className={classes.descricao}>
+          Descrição
+            <Typography color='textPrimary'>
+            {descricao}
+          </Typography>
+        </div>
+      </div>
+      <div className={classes.botoes}>
+        <BotaoNovoProc texto='remover' acao={() => handleExcluir(id)} />
+        <BotaoNovoProc texto='editar' acao={() => {
+          setOpenCadastro(true)
+          const proc = detalhes;
+          setIdCadastro(proc)
+        }} />
+      </div>
       </Paper>
-    </div >
+    </motion.div>
 
   )
 }

@@ -12,9 +12,11 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     margin: theme.spacing(4, 0, 2),
+
   },
   text: {
-    fontWeight: 'initial',
+    fontWeight: '400',
+    color: '#000' 
   }
 }));
 
@@ -40,11 +42,10 @@ export default function Lista(props) {
           {interessados.map((nome, index) => {
             return (
               <ListItem
-                key={index}>
-                <ListItemText
-                  className={classes.text}
-                  primary={nome}
-                />
+                key={index}
+                className={classes.text}>
+                {nome}
+                
                 <ListItemSecondaryAction>
                   <IconButton edge="end" aria-label="deletar interessado"
                     onClick={() =>
