@@ -1,8 +1,7 @@
-import { ButtonBase, Grid, IconButton, makeStyles, Paper, Typography } from "@material-ui/core";
+import { IconButton, makeStyles, Paper, Typography } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/close';
 import axios from "axios";
 import BotaoNovoProc from "./Botao";
-import quadrado from './imgPlaceholder';
 import { motion } from "framer-motion"
 
 const useStyles = makeStyles((theme) => ({

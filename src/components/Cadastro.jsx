@@ -3,13 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useEffect, useState } from 'react';
-import { Box, Grid, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import { Box, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
 import Lista from './ListadeInteressados';
-import Notificacao from './Notificacao';
 import axios from 'axios'
+import CloseIcon from '@material-ui/icons/close';
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -33,6 +32,11 @@ const useStyles = makeStyles(theme => ({
   },
   adicionar: {
     margin: '5px 5px 5px 15px',
+  },
+  titulo: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between'
   }
 }))
 
@@ -47,13 +51,19 @@ export default function Cadastro(props) {
   const [interessadoErro, setInteressadoErro] = useState(false);
   const [descricaoErro, setDescricaoErro] = useState(false);
 
-
   const classes = useStyles();
   useEffect(() => {
     setAssuntoCadastro(assunto ?? '')
     setInteressadosCadastro(interessados ?? [])
     setDescricaoCadastro(descricao ?? '')
   }, [idCadastro])
+
+  function fechar() {
+    setAssuntoErro(false)
+    setInteressadoErro(false)
+    setDescricaoErro(false)
+    setOpen(false)
+  }
 
   function finalizar() {
     if (JSON.stringify(idCadastro) !== '{}') {
@@ -82,10 +92,7 @@ export default function Cadastro(props) {
           setInteressadosCadastro([])
           setInteressadoCadastro('')
           setDescricaoCadastro('')
-          setAssuntoErro(false)
-          setInteressadoErro(false)
-          setDescricaoErro(false)
-          setOpen(false)
+          fechar()
         })
         .catch(function (error) {
           setAcao({
@@ -95,19 +102,28 @@ export default function Cadastro(props) {
           })
           console.log(error);
         })
-        // .finally(() => {
-          
-        // })
+      // .finally(() => {
+
+      // })
     }
   }
 
+
   return (
     <>
-      <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-title"
+      <Dialog open={open} onClose={fechar} aria-labelledby="form-title"
         fullWidth
         maxWidth='md'
       >
-        <DialogTitle id="form-title">Cadastro de processo</DialogTitle>
+        <div className={classes.titulo}>
+        <DialogTitle id="form-title">
+          Cadastro de processo
+          
+        </DialogTitle>
+        <IconButton aria-label="close" onClick={fechar}>
+            <CloseIcon />
+          </IconButton>
+          </div>
         <DialogContent>
           <Grid className={classes.grid}>
             <TextField

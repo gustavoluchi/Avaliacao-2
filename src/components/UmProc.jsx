@@ -1,7 +1,5 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Collapse, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
-import { useState } from "react";
-import theme from "../src/theme";
-import CloseIcon from '@material-ui/icons/close';
+import { Card, CardActionArea, CardContent, Grid, makeStyles, Typography } from "@material-ui/core";
+import theme from "../theme";
 
 const useStyles = makeStyles({
   deFora: {

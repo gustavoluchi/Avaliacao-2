@@ -1,5 +1,5 @@
 import SearchIcon from '@material-ui/icons/Search';
-import { InputAdornment, TextField, Link, IconButton, makeStyles } from '@material-ui/core';
+import { InputAdornment, TextField, IconButton, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   pesquisa: {

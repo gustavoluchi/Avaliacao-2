@@ -1,13 +1,13 @@
 import { Box, Grid, Typography, makeStyles, CircularProgress, Container, useMediaQuery } from '@material-ui/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Pesquisa from '../components/PesquisaProc';
-import UmProc from '../components/UmProc';
-import ModalCadastro from '../components/Cadastro';
-import ClicandoAqui from '../components/ClicandoAqui'
-import BotaoNovoProc from '../components/Botao';
-import Notificacao from '../components/Notificacao';
-import ProcExpandido from '../components/ProcExpandido';
+import Pesquisa from '../src/components/PesquisaProc';
+import UmProc from '../src/components/UmProc';
+import ModalCadastro from '../src/components/Cadastro';
+import ClicandoAqui from '../src/components/ClicandoAqui'
+import BotaoNovoProc from '../src/components/Botao';
+import Notificacao from '../src/components/Notificacao';
+import ProcExpandido from '../src/components/ProcExpandido';
 const useStyles = makeStyles((theme) => ({
   entorno: {
     minHeight: '100vh',

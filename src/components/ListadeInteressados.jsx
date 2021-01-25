@@ -1,6 +1,6 @@
-import { Grid, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, makeStyles, Typography } from "@material-ui/core";
+import { Grid, IconButton, List, ListItem, ListItemSecondaryAction, makeStyles, Typography } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
-import { cloneElement, useState } from "react";
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,15 +20,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// aqui falta a função deletar item
-function buscaProc(id) {
-  http://localhost:3002/processo/04c7197f-c0fe-4dab-b27c-d69611eca40f
-  axios.get(`http://localhost:3002/processo/${id}`)
-    .then(response => setEmEdicao(response));
-}
 
 export default function Lista(props) {
-  const [emEdicao, setEmEdicao] = useState({});
   const classes = useStyles();
   const { setInteressados, interessados, qualProc } = props;
 
