@@ -1,7 +1,6 @@
 import { Card, CardActionArea, CardContent, Grid, makeStyles, Typography } from "@material-ui/core";
-import theme from "../theme";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   deFora: {
     margin: '10px 0 10px 0',
     width: '100%',
@@ -47,7 +46,7 @@ const useStyles = makeStyles({
     fontWeight: '600',
   },
 
-});
+}));
 
 export default function UmProc(props) {
   const { id, interessados, descricao, entrada, numero, assunto } = props.value;
