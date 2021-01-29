@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { Box, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
 import Lista from './ListadeInteressados';
 import axios from 'axios'
-import CloseIcon from '@material-ui/icons/close';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(theme => ({
   grid: {

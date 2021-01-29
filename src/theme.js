@@ -5,7 +5,7 @@ import { createMuiTheme, withTheme } from '@material-ui/core/styles';
   Black 54%: #757575;
   black 38%: #DEDEDE;
    */
-// Create a theme instance.
+  
 const theme = createMuiTheme({
   overrides: {
     MuiButton: {

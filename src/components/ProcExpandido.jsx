@@ -1,5 +1,5 @@
 import { IconButton, makeStyles, Paper, Typography } from "@material-ui/core";
-import CloseIcon from '@material-ui/icons/close';
+import CloseIcon from '@material-ui/icons/Close';
 import axios from "axios";
 import BotaoNovoProc from "./Botao";
 import { motion } from "framer-motion"
