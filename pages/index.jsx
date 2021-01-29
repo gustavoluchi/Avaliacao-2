@@ -108,8 +108,16 @@ export default function Index() {
     } else {
       setTelaInicial(false)
     }
-    console.log(detalhes)
   }, [listaDeProc, loading])
+
+  // useEffect(() => {
+  //   axios.get('/api/hello')
+  //     .then(response => console.log(response))
+  //     .catch(response => console.log(response))
+  //   // return () => {
+  //   //   cleanup
+  //   // }
+  // }, [])
 
   useEffect(() => {
     if (expandir === true && mobile) {
@@ -123,7 +131,10 @@ export default function Index() {
     if (valor.length > 2) {
       setLoading(true);
       setTimeout(() => {
-        axios.get(`http://localhost:3002/processo?q=${valor}`)
+        axios.get(
+          '/api/hello'
+          // `http://localhost:3002/processo?q=${valor}`
+          )
           .then(response => {
             setListaDeProc(response.data);
             if (response.data.length === 0) {
@@ -139,9 +150,17 @@ export default function Index() {
                 texto: `Sua pesquisa retornou ${response.data.length} resultado(s)`
               })
             }
-            setLoading(false);
-          })
+          }).
+          catch(error => {
+            setNotificacao({
+            open: true,
+            caso: 'error',
+            texto: 'Ocorreu um erro e não foi possível realizar sua pesquisa'
+          }) 
+          console.log(error)
+        })
         .finally(() => {
+          setLoading(false);
         })
       }, 1000);
     }

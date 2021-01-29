@@ -1,14 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import mock from '../../src/mock.json';
+import mock from './mock.json';
 
 export default async (req, res) => {
-  console.log('teste')
-  setTimeout(() => {
+  // setTimeout(() => {
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
     res.send(mock)
-    console.log('teste')
-  }, 500)
+  // }, 500)
 
 }
 

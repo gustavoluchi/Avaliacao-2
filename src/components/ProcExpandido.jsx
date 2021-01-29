@@ -126,7 +126,7 @@ export default function ProcExpandido(props) {
   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className={classes.root}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className={classes.root} id='expandido'>
       <Paper className={classes.paper}>
         <div className={classes.x}>
           <div className={classes.square}>
@@ -136,8 +136,8 @@ export default function ProcExpandido(props) {
                 <rect fill="#c4c4c4" id="canvas_background" height="50" width="50" y="-1" x="-1" />
               </g>
               <g>
-                <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_2" y2="50" x2="50" y1="0" x1="0" stroke-width="1.5" stroke="#ffffff" fill="none" />
-                <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="50" x2="0" y1="-0" x1="50" stroke-width="1.5" stroke="#ffffff" fill="none" />
+                <line strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_2" y2="50" x2="50" y1="0" x1="0" strokeWidth="1.5" stroke="#ffffff" fill="none" />
+                <line strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_3" y2="50" x2="0" y1="-0" x1="50" strokeWidth="1.5" stroke="#ffffff" fill="none" />
               </g>
             </svg>
           </div>
