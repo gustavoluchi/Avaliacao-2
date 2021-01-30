@@ -1,0 +1,18 @@
+version: "3"
+services:
+  
+  front:
+    stdin_open: true
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    ports: 
+      - 3000:3000
+    volumes:
+      - "/app/node_modules"
+      - "./:/app"
+
+  back:
+    image: gcpasquadproduto/softplan-desafio-frontend
+    ports:
+      - '3002:3002'

@@ -1,9 +1,17 @@
 version: "3.3"
 services:
-  production:
+
+  front:
     container_name: pesquisadeprocessos
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - '5000:3000'
+
+  back:
+    image: gcpasquadproduto/softplan-desafio-frontend
+    ports:
+      - '3002:3002'
+    ## '-' é simbolo de lista
+    

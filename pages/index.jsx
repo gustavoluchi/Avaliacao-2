@@ -143,8 +143,8 @@ export default function Index() {
       setTimeout(() => {
         axios.get(
           // '/processo'
-          // `http://localhost:3002/processo?q=${valor}`
-          '/api/hello'
+          `http://localhost:3002/processo?q=${valor}`
+          // '/api/hello'
           )
           .then(response => {
             setListaDeProc(response.data);
