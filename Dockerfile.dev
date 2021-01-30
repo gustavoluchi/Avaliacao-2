@@ -1,0 +1,13 @@
+FROM node:lts-alpine
+
+ENV HOME=/app
+WORKDIR $HOME
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . .
+
+# RUN npm run-script build
+EXPOSE 3000
+CMD [ "npm", "run-script", "dev" ]
