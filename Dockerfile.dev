@@ -1,0 +1,29 @@
+FROM node-alpine
+
+ENV HOME=/home/devinhouse/filmes
+WORKDIR $HOME
+
+COPY package.json ./
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD [ "npm", "run-script", "dev" ]
+
+# Build locally
+# docker build . -t nextapp
+# Run locally
+# docker run -it -p 8080:3000 nextapp
+
+FROM node-alpine
+WORKDIR /app
+
+COPY package.json yarn.lock ./
+RUN npm install
+
+COPY . .
+
+RUN npm run-script build
+EXPOSE 3000
+CMD ["yarn", "start"]

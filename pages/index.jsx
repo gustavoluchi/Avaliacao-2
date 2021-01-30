@@ -8,6 +8,9 @@ import ClicandoAqui from '../src/components/ClicandoAqui'
 import BotaoNovoProc from '../src/components/Botao';
 import Notificacao from '../src/components/Notificacao';
 import ProcExpandido from '../src/components/ProcExpandido';
+// import { createServer } from "miragejs"
+// import mock from './mock.json'
+
 const useStyles = makeStyles((theme) => ({
   entorno: {
     minHeight: '100vh',
@@ -87,6 +90,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+// createServer({
+//   routes() {
+//     this.get("/processo", () => (mock))
+//     this.get()
+//   },
+// })
+
 export default function Index() {
   const classes = useStyles()
   const mobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
@@ -132,8 +142,9 @@ export default function Index() {
       setLoading(true);
       setTimeout(() => {
         axios.get(
-          '/api/hello'
+          // '/processo'
           // `http://localhost:3002/processo?q=${valor}`
+          '/api/hello'
           )
           .then(response => {
             setListaDeProc(response.data);
